@@ -72,6 +72,9 @@ void doop(int op)
                 failed=true;
                 break;
             }
+            int m;
+            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
+            else m = atoi(stack[opindex+1]);
             if (memory[mds] == atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
@@ -169,6 +172,9 @@ void doop(int op)
                 failed=true;
                 break;
             }
+            int m;
+            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
+            else m = atoi(stack[opindex+1]);
             if (memory[mds] < atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
@@ -205,6 +211,9 @@ void doop(int op)
                 failed=true;
                 break;
             }
+            int m;
+            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
+            else m = atoi(stack[opindex+1]);
             if (memory[mds] > atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
@@ -226,6 +235,9 @@ void doop(int op)
         case OP_MDX: {
             mdx = atoi(stack[opindex+1]);
             opindex++;
+        } break;
+        case OP_NEG: {
+            memory[mds] = -memory[mds];
         } break;
         default: {
             printf("UNDEFINED OPERATION (%s)\n", stack[opindex]);

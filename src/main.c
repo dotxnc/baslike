@@ -5,7 +5,11 @@
 
 int main(int argc, char** argv)
 {
-    char* str = LoadText("fib.b");
+    if (argc < 2) {
+        printf("ERROR: NO SCRIPT\n");
+        return 1;
+    }
+    char* str = LoadText(argv[1]);
     printf("executing: fib.b\n");
     printf("---------------\n");
     execute(str);
