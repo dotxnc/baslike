@@ -1,0 +1,21 @@
+MDS 2
+SET 1
+DEF FIB
+MDS 0
+IFL 10
+    ADD 1
+    MDS 1
+    PRN MDS
+    MDS 3
+    MDX 1
+    SET MDX
+    MDX 2
+    ADD MDX
+    MDS 1
+    MDX 2
+    SET MDX
+    MDS 2
+    MDX 3
+    SET MDX
+    JMP FIB
+ENF
