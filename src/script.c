@@ -51,7 +51,8 @@ void doop(int op)
             printf("NON OPERATION (%s:%d)\n", stack[opindex], opindex);
         } break;
         case OP_MDS: {
-            mds = atoi(stack[opindex+1]);
+            if (isop(stack[opindex+1]) == OP_MDX) mds = memory[mdx];
+            else mds = atoi(stack[opindex+1]);
             opindex++;
         } break;
         case OP_IFE: {
