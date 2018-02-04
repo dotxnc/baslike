@@ -1,7 +1,30 @@
 
 #include <stdio.h>
-#include <raylib.h>
 #include "script.h"
+
+// This snippet was taken from raylib's rlgl.c
+char *loadtext(const char *fileName) 
+{
+    FILE *textFile;
+    char *text = NULL;
+    int count = 0;
+    if (fileName != NULL) {
+        textFile = fopen(fileName,"rt");
+        if (textFile != NULL) {
+            fseek(textFile, 0, SEEK_END);
+            count = ftell(textFile);
+            rewind(textFile);
+            if (count > 0) {
+                text = (char *)malloc(sizeof(char)*(count + 1));
+                count = fread(text, sizeof(char), count, textFile);
+                text[count] = '\0';
+            }
+            fclose(textFile);
+        }
+        else printf("ERROR: NO FILE");
+    }
+    return text;
+}
 
 int main(int argc, char** argv)
 {
@@ -9,7 +32,8 @@ int main(int argc, char** argv)
         printf("ERROR: NO SCRIPT\n");
         return 1;
     }
-    char* str = LoadText(argv[1]);
+    char* str = loadtext(argv[1]);
+    printf("%s\n", str);
     printf("executing: fib.b\n");
     printf("---------------\n");
     execute(str);
