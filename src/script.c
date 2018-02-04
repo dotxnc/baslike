@@ -3,12 +3,25 @@
 void execute(char* text)
 {
     populate(text);
+    preprocess();
     for (opindex = 0; opindex < stacksize; opindex++)
     {
         int op = isop(stack[opindex]);
         doop(op);
         if (failed) break;
     }
+}
+
+void preprocess()
+{
+    for (int i = 0; i < stacksize; i++) {
+        if (isop(stack[i]) == OP_DEF) {
+            labels[labelsize] = i+1;
+            labelsize++;
+        }
+    }
+    printf("preprocessor found %d %s\n", labelsize, labelsize>1||labelsize==0?"labels":"label");
+    printf("---------------\n");
 }
 
 void populate(char* text)
@@ -136,8 +149,8 @@ void doop(int op)
             printf("\n");
         } break;
         case OP_DEF: {
-            labels[labelsize] = opindex+1;
-            labelsize++;
+            // labels[labelsize] = opindex+1;
+            // labelsize++;
             opindex++;
         } break;
         case OP_JMP: {

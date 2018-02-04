@@ -2,7 +2,7 @@
 `BASLIKE` was created for a game I am/was working on called `^2`. The code is not pretty or written how an interpreter should be written but it works for what I need and that's all that matters.
 
 # BASLIKE language specification
-Current language spec is `0.3`
+Current language spec is `0.3.1`
 
 - [MDX and MDS](#mds-and-mdx)
 - [Math ops](#math)
@@ -102,7 +102,8 @@ I'm going to assume by now you can read the code fairly easily so I won't go int
 ___
 Labels are used by two operations: `DEF` and `JMP`. `DEF NAME` defines a label with name `NAME` which can then be jumped to using `JMP NAME`.
 
-**NOTE**: In version 0.3 of the `BASLIKE` specification you can't jump to a label that wasn't created yet.
+~~**NOTE**: In version 0.3 of the `BASLIKE` specification you can't jump to a label that wasn't created yet.~~
+This has been corrected in 0.3.1
 
 Labels make loops fairly simple, you just need a place in memory to store the current index of the loop and a label. Here's an example of a ranged for loop:
 ```

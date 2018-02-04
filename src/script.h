@@ -11,6 +11,7 @@
 #define MEM 8
 
 void execute(char*);
+void preprocess();
 void populate(char*);
 int isop(char*);
 void doop(int);
