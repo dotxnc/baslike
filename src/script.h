@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#define OPS 15
+#define OPS 16
 #define MEM 8
 
 void execute(char*);
@@ -23,26 +23,44 @@ static bool failed = false;
 static int memory[MEM] = {0};
 static int labels[512] = {-1};
 static int labelsize = 0;
-static char* ops[OPS] = {"MDS", "IFE", "SET", "ADD", "ENF", "PRN", "ELS", "STP", "MEM", "DEF", "JMP", "IFL", "IFG", "MDX", "NEG"};
+static char* ops[OPS] = {
+    "MDS",
+    "MDX",
+    "IFE",
+    "IFL",
+    "IFG",
+    "ELS",
+    "ENF",
+    "SET",
+    "ADD",
+    "MUL",
+    "DIV",
+    "NEG",
+    "PRN",
+    "MEM",
+    "DEF",
+    "JMP",
+};
 static int mds = 0;
 static int mdx = 0;
 enum {
     OP_NON=-1, // not an operation
     OP_MDS,    // memory location
+    OP_MDX,    // second memory location
     OP_IFE,    // if equal to
+    OP_IFL,    // if less than
+    OP_IFG,    // if greater than
+    OP_ELS,    // else
+    OP_ENF,    // end if
     OP_SET,    // set mds
     OP_ADD,    // add
-    OP_ENF,    // end if
+    OP_MUL,    // multiply
+    OP_DIV,    // divide
+    OP_NEG,    // negate
     OP_PRN,    // print
-    OP_ELS,    // else
-    OP_STP,    // end of program **UNUSED
     OP_MEM,    // print memory (debug)
     OP_DEF,    // define label
     OP_JMP,    // jump to label
-    OP_IFL,    // if less than
-    OP_IFG,    // if greater than
-    OP_MDX,    // second memory location
-    OP_NEG,    // negate
 };
 
 #endif

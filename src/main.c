@@ -21,7 +21,7 @@ char *loadtext(const char *fileName)
             }
             fclose(textFile);
         }
-        else printf("ERROR: NO FILE");
+        else printf("ERROR: NO FILE\n");
     }
     return text;
 }
@@ -32,7 +32,12 @@ int main(int argc, char** argv)
         printf("ERROR: NO SCRIPT\n");
         return 1;
     }
+    if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
+        printf("BASLIKE VER 0.3.1\n");
+        return 0;
+    }
     char* str = loadtext(argv[1]);
+    if (!str) return 1;
     printf("executing: %s\n", argv[1]);
     printf("---------------\n");
     execute(str);

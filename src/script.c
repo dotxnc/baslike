@@ -148,10 +148,6 @@ void doop(int op)
             opindex++;
         } break;
         case OP_ELS: {
-            
-        } break;
-        case OP_STP: {
-            
         } break;
         case OP_MEM: {
             printf("MEM: ");
@@ -161,8 +157,6 @@ void doop(int op)
             printf("\n");
         } break;
         case OP_DEF: {
-            // labels[labelsize] = opindex+1;
-            // labelsize++;
             opindex++;
         } break;
         case OP_JMP: {
@@ -288,6 +282,22 @@ void doop(int op)
         } break;
         case OP_NEG: {
             memory[mds] = -memory[mds];
+        } break;
+        case OP_MUL: {
+            int addop = isop(stack[opindex+1]);
+            if (addop == OP_MDX)
+                memory[mds] *= memory[mdx];
+            else
+                memory[mds] *= atoi(stack[opindex+1]);
+            opindex++;
+        } break;
+        case OP_DIV: {
+            int addop = isop(stack[opindex+1]);
+            if (addop == OP_MDX)
+                memory[mds] /= memory[mdx];
+            else
+                memory[mds] /= atoi(stack[opindex+1]);
+            opindex++;
         } break;
         default: {
             printf("UNDEFINED OPERATION (%s)\n", stack[opindex]);
