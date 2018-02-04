@@ -1,7 +1,6 @@
 This is an example to show
-the proprocessor finding and
-defined labels before you
-reach them
+the proprocessor finding defined
+labels before you reach them.
 
 DEF START
 MDS 0
