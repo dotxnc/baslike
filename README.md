@@ -26,7 +26,7 @@ ADD MDX
 The resulting memory layout should be `[15, 10, 0, 0, 0, 0, 0, 0]`.
 Let's walk through this:
 
-`MDS 0` sets the write register to location 0 in memory. `SET 5` sets the value at the write register to `5`, Next we set the write register to location 1 (`MDS 1`) and set that value to `10`. The memory layout at this point is `[5 10, 0, 0, 0, 0, 0, 0]`. We then set the write register to 0 and the *read* register to 1 and `ADD MDX` which adds the value pointed to by the read register to the value pointed to by the write register.
+`MDS 0` sets the write register to location 0 in memory. `SET 5` sets the value at the write register to `5`, Next we set the write register to location 1 (`MDS 1`) and set that value to `10`. The memory layout at this point is `[5, 10, 0, 0, 0, 0, 0, 0]`. We then set the write register to 0 and the *read* register to 1 and `ADD MDX` which adds the value pointed to by the read register to the value pointed to by the write register.
 
 Hopefully that all makes at least *some* sense, we'll cover basic math next.
 
@@ -153,7 +153,7 @@ ENF
 ___
 Commenting code can be important so I've implemented a very simplistic way of documenting code. If a word contains any lowercase letter it gets ignored by the interpreter.
 ```
-This is a command
+This is a comment
 MDS 0
 ADD 5
 ```
