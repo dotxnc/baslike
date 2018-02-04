@@ -2,7 +2,7 @@ MDS 2
 SET 1
 DEF FIB
 MDS 0
-IFL 10
+IFL 20
     ADD 1
     MDS 1
     PRN MDS
