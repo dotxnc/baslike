@@ -87,12 +87,18 @@ void doop(int op)
                 break;
             }
             int m;
+            bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
             if (memory[mds] == atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
+                    if (isop(stack[opindex])==OP_JMP) {
+                        doop(isop(stack[opindex]));
+                        jumped=true;
+                        break;
+                    }
                     doop(isop(stack[opindex]));
                     if (failed) break;
                 }
@@ -100,12 +106,18 @@ void doop(int op)
                 if (els > -1) {
                     opindex = els;
                     for (; opindex < enf; opindex++) {
+                        if (isop(stack[opindex])==OP_JMP) {
+                            doop(isop(stack[opindex]));
+                            jumped=true;
+                            break;
+                        }
                         doop(isop(stack[opindex]));
                         if (failed) break;
                     }
                 }
             }
-            opindex = enf;
+            if (!jumped)
+                opindex = enf;
         } break;
         case OP_SET: {
             int setop = isop(stack[opindex+1]);
@@ -187,12 +199,18 @@ void doop(int op)
                 break;
             }
             int m;
+            bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
             if (memory[mds] < atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
+                    if (isop(stack[opindex])==OP_JMP) {
+                        doop(isop(stack[opindex]));
+                        jumped=true;
+                        break;
+                    }
                     doop(isop(stack[opindex]));
                     if (failed) break;
                 }
@@ -200,12 +218,18 @@ void doop(int op)
                 if (els > -1) {
                     opindex = els;
                     for (; opindex < enf; opindex++) {
+                        if (isop(stack[opindex])==OP_JMP) {
+                            doop(isop(stack[opindex]));
+                            jumped=true;
+                            break;
+                        }
                         doop(isop(stack[opindex]));
                         if (failed) break;
                     }
                 }
             }
-            opindex = enf;
+            if (!jumped)
+                opindex = enf;
         } break;
         case OP_IFG: {
             int els = -1;
@@ -226,12 +250,18 @@ void doop(int op)
                 break;
             }
             int m;
+            bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
             if (memory[mds] > atoi(stack[opindex+1])) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
+                    if (isop(stack[opindex])==OP_JMP) {
+                        doop(isop(stack[opindex]));
+                        jumped=true;
+                        break;
+                    }
                     doop(isop(stack[opindex]));
                     if (failed) break;
                 }
@@ -239,12 +269,18 @@ void doop(int op)
                 if (els > -1) {
                     opindex = els;
                     for (; opindex < enf; opindex++) {
+                        if (isop(stack[opindex])==OP_JMP) {
+                            doop(isop(stack[opindex]));
+                            jumped=true;
+                            break;
+                        }
                         doop(isop(stack[opindex]));
                         if (failed) break;
                     }
                 }
             }
-            opindex = enf;
+            if (!jumped)
+                opindex = enf;
         } break;
         case OP_MDX: {
             mdx = atoi(stack[opindex+1]);
