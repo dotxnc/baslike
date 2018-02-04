@@ -1,12 +1,12 @@
 # BASLIKE language specification
 Current language spec is `0.3`
 
-- [MDX and MDS](#MDS and MDX)
-- [Math ops](#Math)
-- [Debugging](#Debugging)
-- [Conditional statements](#Conditional IF statements)
-- [Labels and looping](#Labels and looping)
-- [Fun](#Fun)
+- [MDX and MDS](#mds-and-mdx)
+- [Math ops](#math)
+- [Debugging](#debugging)
+- [Conditional statements](#conditional-if-statements)
+- [Labels and looping](#labels-and-looping)
+- [Fun](#fun)
 
 ### MDS and MDX
 ___
