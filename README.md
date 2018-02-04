@@ -9,6 +9,7 @@ Current language spec is `0.3`
 - [Fun](#Fun)
 
 ### MDS and MDX
+___
 The way variables are stored use the `MDS` and `MDX` registers. `MDS` is the write register and `MDX` is the read register. Together they're used as the backbone of all logic in `BASLIKE`. "Memory" in baslike is represented as an array of 8 integer values and accessed using the read and write registers.
 
 Let's look at a code example
@@ -29,6 +30,7 @@ Let's walk through this:
 Hopefully that all makes at least *some* sense, we'll cover basic math next.
 
 ### Math
+___
 Math in `BASLIKE` is done using just three ops and those are: `SET`, `ADD`, and `NEG`. You'll note that there is no multiplication or division here, all of that has to be done manually using loops which we'll cover at a later point.
 
 All of these operations can either use a value or the read register `MDX` apart from `NEG` which only does operations on the write register `MDS`.
@@ -47,6 +49,7 @@ ADD MDX
 The memory layout after `NEG` should be `[10, -25, 0, 0, 0, 0, 0, 0]`. In `BASLIKE` the only way to subtract is to add negative numbers using the `ADD` operation. Memory layout in the end should look like `[-15, -25, 0, 0, 0, 0, 0, 0]`.
 
 ### Debugging
+___
 Throughout your programming you might run into some weird problems and that is where the `PRN` and `MEM` operations come in handy. `PRN` prints out a single word or alternatively you can specify to output `MDS` or `MDX` to stdout. `MEM` outputs the current memory layout.
 
 Let's take the simple math example and add some debugging to it to make sure everything works properly:
@@ -73,6 +76,7 @@ OUT: END
 ```
 
 ### Conditional IF statements
+___
 Conditional statements are create using three different `IFX` registers and are: `IFE`, `IFL`, and `IFG`. These stand for "If equal", "If less than", and "If greater than". There's a fourth register called `ELS` and that's used for the `else` condition. All of these take either an integer as an argument or `MDX` as usual. All if statements need to be closed with an `ENF` operation.
 
 Some example code again:
@@ -91,6 +95,7 @@ ENF
 I'm going to assume by now you can read the code fairly easily so I won't go into much detail. This code is fairly straightforward.
 
 ### Labels and looping
+___
 Labels are used by two operations: `DEF` and `JMP`. `DEF NAME` defines a label with name `NAME` which can then be jumped to using `JMP NAME`.
 
 **NOTE**: In version 0.3 of the `BASLIKE` specification you can't jump to a label that wasn't created yet.
@@ -117,6 +122,7 @@ OUT: END
 ```
 
 ### Fun
+___
 Just for fun, here is an implementation of the fibonacci sequence in `BASLIKE`
 ```
 MDS 2
