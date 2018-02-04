@@ -33,8 +33,7 @@ int main(int argc, char** argv)
         return 1;
     }
     char* str = loadtext(argv[1]);
-    printf("%s\n", str);
-    printf("executing: fib.b\n");
+    printf("executing: %s\n", argv[1]);
     printf("---------------\n");
     execute(str);
     printf("---------------\n");
