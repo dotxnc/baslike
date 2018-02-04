@@ -2,7 +2,7 @@ rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subs
 SRC = $(call rwildcard, src/, *.c) #$(wildcard src/*.cpp) $(wildcard src/engine/*.cpp)
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 CFLAGS = --std=c11 -Wno-incompatible-pointer-types -Wno-int-conversion -Isrc/
-NAME = script
+NAME = baslike
 OUT =
 
 LDFLAGS = -Wl,-allow-multiple-definition -static-libgcc

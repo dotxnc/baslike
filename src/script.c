@@ -90,7 +90,7 @@ void doop(int op)
             bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
-            if (memory[mds] == atoi(stack[opindex+1])) {
+            if (memory[mds] == m) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
@@ -196,7 +196,7 @@ void doop(int op)
             bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
-            if (memory[mds] < atoi(stack[opindex+1])) {
+            if (memory[mds] < m) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
@@ -247,7 +247,7 @@ void doop(int op)
             bool jumped=false;
             if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
             else m = atoi(stack[opindex+1]);
-            if (memory[mds] > atoi(stack[opindex+1])) {
+            if (memory[mds] > m) {
                 opindex+=2;
                 int to = els > -1 ? els : enf;
                 for (; opindex < to; opindex++) {
