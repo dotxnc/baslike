@@ -7,6 +7,7 @@ Current language spec is `0.3`
 - [Conditional statements](#conditional-if-statements)
 - [Labels and looping](#labels-and-looping)
 - [Fun](#fun)
+- [Comments](#comments)
 
 ### MDS and MDX
 ___
@@ -147,3 +148,19 @@ IFL 10
     JMP FIB
 ENF
 ```
+
+### Comments
+___
+Commenting code can be important so I've implemented a very simplistic way of documenting code. If a word contains any lowercase letter it gets ignored by the interpreter.
+```
+This is a command
+MDS 0
+ADD 5
+```
+This works fine and the resulting output is just as you'd expect.
+```
+THIS is not a comment
+MDS 0
+ADD 5
+```
+This will cause a warning of `NON OPERATION (THIS)`.
