@@ -1,0 +1,258 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"gui",
+				"gui_label\tvoid gui_label(const char *, int, int, int, int)"
+			],
+			[
+				"Measure",
+				"MeasureTextEx\tVector2 MeasureTextEx(SpriteFont spriteFont, const char *text, float fontSize, int spacing)"
+			],
+			[
+				"DARKGR",
+				"DARKGRAY\tDARKGRAY"
+			],
+			[
+				"SetShaderValue",
+				"SetShaderValuei\tvoid SetShaderValuei(Shader shader, int uniformLoc, const int *value, int size)"
+			],
+			[
+				"SetShaderVa",
+				"SetShaderValuei\tvoid SetShaderValuei(Shader shader, int uniformLoc, const int *value, int size)"
+			],
+			[
+				"Draw",
+				"DrawTexturePro"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"discord",
+				"Discord Rich Presence: Connect to Discord"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"easyclangcomplete",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"build",
+				"Build With: Make"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"UI:",
+				"UI: Select Theme"
+			],
+			[
+				"UI: ",
+				"UI: Select Theme"
+			],
+			[
+				"diff",
+				"Set Syntax: Diff"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/patri/Desktop/Projects/texteditor/baslike.png",
+		"/C/Users/patri/Desktop/Projects/scripttest/bin/broken.b",
+		"/C/Users/patri/Desktop/Projects/RogueBuilder/src/engine/gui.cpp",
+		"/C/Users/patri/Desktop/Projects/RogueBuilder/src/engine/gui.h",
+		"/C/Users/patri/Desktop/Projects/scripttest/.gitignore",
+		"/C/Users/patri/Desktop/Projects/scripttest/baslike.sublime-project",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/os.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/os.c",
+		"/C/Users/patri/Desktop/Projects/scripttest/makefile",
+		"/C/Users/patri/Desktop/Projects/scripttest/src/script.h",
+		"/C/Users/patri/Desktop/Projects/scripttest/bin/fib.b",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/network.c",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/lighting.fs",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/ssao.fs",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/screen.c",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/posterize.fs",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/dither.fs",
+		"/C/Users/patri/Downloads/dither.glsl",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/camera.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/terminal.fs",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/viewmodel.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/viewmodel.c",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/network.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/external/glad.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/bin/assets/shaders/depth.fs",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/camera.c",
+		"/C/MinGW/x86_64-w64-mingw32/include/raylib.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/player.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/makefile",
+		"/C/Users/patri/Desktop/Projects/HackingGame/.gitignore",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/main.c",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/resource.h",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/resource.c",
+		"/C/Users/patri/Desktop/Projects/HackingGame/src/screen.h"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 132.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 56.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "script.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 233.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
