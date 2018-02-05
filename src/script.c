@@ -2,6 +2,7 @@
 
 void execute(char* text)
 {
+    reset();
     populate(text);
     preprocess();
     for (opindex = 0; opindex < stacksize; opindex++)
@@ -12,6 +13,21 @@ void execute(char* text)
     }
 }
 
+void reset() {
+    for (int i = 0; i < stacksize; i++)
+        memset(stack[i], '\0', 16);
+    for (int i = 0; i < MEM; i++)
+        memory[i] = 0;
+    for (int i = 0; i < labelsize; i++)
+        labels[i] = -1;
+    stacksize = 0;
+    labelsize = 0;
+    opindex = 0;
+    mds = 0;
+    mdx = 0;
+    memset(output, '\0', 1024);
+}
+
 void preprocess()
 {
     for (int i = 0; i < stacksize; i++) {
@@ -20,8 +36,6 @@ void preprocess()
             labelsize++;
         }
     }
-    printf("preprocessor found %d %s\n", labelsize, labelsize>1||labelsize==0?"labels":"label");
-    printf("---------------\n");
 }
 
 void populate(char* text)
@@ -61,7 +75,8 @@ void doop(int op)
     switch (op)
     {
         case OP_NON: {
-            printf("NON OPERATION (%s:%d)\n", stack[opindex], opindex);
+            scriptoutput("NON OPERATION (%s:%d)\n", stack[opindex], opindex);
+            failed=true;
         } break;
         case OP_MDS: {
             if (isop(stack[opindex+1]) == OP_MDX) mds = memory[mdx];
@@ -82,7 +97,7 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                printf("ERROR: NO ENF\n");
+                scriptoutput("ERROR: NO ENF\n");
                 failed=true;
                 break;
             }
@@ -140,21 +155,21 @@ void doop(int op)
         } break;
         case OP_PRN: {
             if (isop(stack[opindex+1]) == OP_MDX)
-                printf("MDX: %d\n", memory[mdx]);
+                scriptoutput("MDX: %d\n", memory[mdx]);
             else if (isop(stack[opindex+1]) == OP_MDS)
-                printf("MDS: %d\n", memory[mds]);
+                scriptoutput("MDS: %d\n", memory[mds]);
             else
-                printf("OUT: %s\n", stack[opindex+1]);
+                scriptoutput("OUT: %s\n", stack[opindex+1]);
             opindex++;
         } break;
         case OP_ELS: {
         } break;
         case OP_MEM: {
-            printf("MEM: ");
+            scriptoutput("MEM: ");
             for (int i = 0; i < MEM; i++) {
-                printf("%d ", memory[i]);
+                scriptoutput("%d ", memory[i]);
             }
-            printf("\n");
+            scriptoutput("\n");
         } break;
         case OP_DEF: {
             opindex++;
@@ -169,7 +184,7 @@ void doop(int op)
                 }
             }
             if (!found) {
-                printf("ERROR: NO LABEL (%s)\n", stack[opindex+1]);
+                scriptoutput("ERROR: NO LABEL (%s)\n", stack[opindex+1]);
                 failed=true;
                 break;
             }
@@ -188,7 +203,7 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                printf("ERROR: NO ENF\n");
+                scriptoutput("ERROR: NO ENF\n");
                 failed=true;
                 break;
             }
@@ -239,7 +254,7 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                printf("ERROR: NO ENF\n");
+                scriptoutput("ERROR: NO ENF\n");
                 failed=true;
                 break;
             }
@@ -300,7 +315,7 @@ void doop(int op)
             opindex++;
         } break;
         default: {
-            printf("UNDEFINED OPERATION (%s)\n", stack[opindex]);
+            scriptoutput("UNDEFINED OPERATION (%s)\n", stack[opindex]);
         } break;
     }
 }
@@ -318,3 +333,11 @@ void stackinfo()
     }
     printf("]\n");
 }
+
+char* getoutput() { return output; }
+char** getstack() { return stack; }
+int* getmemory() { return memory; }
+bool getfailed() { return failed; }
+int* getlabels() { return labels; }
+int getstacksize() { return stacksize; }
+int getlabelsize() { return labelsize; }

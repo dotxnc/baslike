@@ -28,6 +28,7 @@ char *loadtext(const char *fileName)
 
 int main(int argc, char** argv)
 {
+    
     if (argc < 2) {
         printf("ERROR: NO SCRIPT\n");
         return 1;
@@ -38,10 +39,17 @@ int main(int argc, char** argv)
     }
     char* str = loadtext(argv[1]);
     if (!str) return 1;
-    printf("executing: %s\n", argv[1]);
-    printf("---------------\n");
     execute(str);
-    printf("---------------\n");
-    stackinfo();
+    printf("-- STACK INFO --\n");
+    printf("LABELS : %d\n", getlabelsize());
+    printf("OPS    : %d\n", getstacksize());
+    printf("--   OUTPUT   --\n");
+    printf("%s", getoutput());
+    if (getfailed()) {
+        printf("--   FAILED   --\n");
+    } else {
+        printf("--   SUCCESS  --\n");
+    }
+    
     return 0;
 }

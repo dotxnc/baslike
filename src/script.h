@@ -6,11 +6,23 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdarg.h>
+
+static char output[1024];
+void scriptoutput(char* fmt, ...) {
+    char buf[128];
+    va_list va;
+    va_start(va, fmt);
+    vsprintf(buf, fmt, va);
+    va_end(va);
+    strcat(output, buf);
+}
 
 #define OPS 16
 #define MEM 8
 
 void execute(char*);
+void reset();
 void preprocess();
 void populate(char*);
 int isop(char*);
@@ -62,5 +74,14 @@ enum {
     OP_DEF,    // define label
     OP_JMP,    // jump to label
 };
+
+// getters
+char* getoutput();
+char** getstack();
+int* getmemory();
+bool getfailed();
+int* getlabels();
+int getstacksize();
+int getlabelsize();
 
 #endif
