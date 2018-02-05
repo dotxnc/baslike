@@ -1,47 +1,47 @@
 #include "script.h"
 
-void execute(char* text)
+void execute(baslike_t* script, char* text)
 {
-    reset();
-    populate(text);
-    preprocess();
-    for (opindex = 0; opindex < stacksize; opindex++)
+    reset(script);
+    populate(script, text);
+    preprocess(script);
+    for (script->opindex = 0; script->opindex < script->stacksize; script->opindex++)
     {
-        int op = isop(stack[opindex]);
-        doop(op);
-        if (failed) break;
+        int op = isop(script->stack[script->opindex]);
+        doop(script, op);
+        if (script->failed) break;
     }
 }
 
-void reset() {
-    for (int i = 0; i < stacksize; i++)
-        memset(stack[i], '\0', 16);
+void reset(baslike_t* script) {
+    for (int i = 0; i < script->stacksize; i++)
+        memset(script->stack[i], '\0', 16);
     for (int i = 0; i < MEM; i++)
-        memory[i] = 0;
-    for (int i = 0; i < labelsize; i++)
-        labels[i] = -1;
-    stacksize = 0;
-    labelsize = 0;
-    opindex = 0;
-    mds = 0;
-    mdx = 0;
-    memset(output, '\0', 1024);
+        script->memory[i] = 0;
+    for (int i = 0; i < script->labelsize; i++)
+        script->labels[i] = -1;
+    script->stacksize = 0;
+    script->labelsize = 0;
+    script->opindex = 0;
+    script->mds = 0;
+    script->mdx = 0;
+    memset(script->output, '\0', 1024);
 }
 
-void preprocess()
+void preprocess(baslike_t* script)
 {
-    for (int i = 0; i < stacksize; i++) {
-        if (isop(stack[i]) == OP_DEF) {
-            labels[labelsize] = i+1;
-            labelsize++;
+    for (int i = 0; i < script->stacksize; i++) {
+        if (isop(script->stack[i]) == OP_DEF) {
+            script->labels[script->labelsize] = i+1;
+            script->labelsize++;
         }
     }
 }
 
-void populate(char* text)
+void populate(baslike_t* script, char* text)
 {
     int i;
-    for (i=0;i<512;i++)memset(stack[i], '\0', 16);
+    for (i=0;i<512;i++)memset(script->stack[i], '\0', 16);
     for (i=0;i<strlen(text);i++)if(text[i]=='\n')text[i]=' ';
     int index = 0;
     char *token = strtok(text, " \n");
@@ -54,13 +54,13 @@ void populate(char* text)
             }
         }
         if (!ignore) {
-            strcpy(stack[index], token);
+            strcpy(script->stack[index], token);
             index++;
         }
         token = strtok(NULL, " ");
     }
     free(token);
-    stacksize = index;
+    script->stacksize = index;
 }
 
 int isop(char* op)
@@ -70,24 +70,24 @@ int isop(char* op)
     return OP_NON;
 }
 
-void doop(int op)
+void doop(baslike_t* script, int op)
 {
     switch (op)
     {
         case OP_NON: {
-            scriptoutput("NON OPERATION (%s:%d)\n", stack[opindex], opindex);
-            failed=true;
+            scriptoutput(script->output, "NON OPERATION (%s:%d)\n", script->stack[script->opindex], script->opindex);
+            script->failed=true;
         } break;
         case OP_MDS: {
-            if (isop(stack[opindex+1]) == OP_MDX) mds = memory[mdx];
-            else mds = atoi(stack[opindex+1]);
-            opindex++;
+            if (isop(script->stack[script->opindex+1]) == OP_MDX) script->mds = script->memory[script->mdx];
+            else script->mds = atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_IFE: {
             int els = -1;
             int enf = -1;
-            for (int i = opindex; i < stacksize; i++) {
-                int eop = isop(stack[i]);
+            for (int i = script->opindex; i < script->stacksize; i++) {
+                int eop = isop(script->stack[i]);
                 if (eop == OP_ENF) {
                     enf = i;
                     break;
@@ -97,103 +97,103 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                scriptoutput("ERROR: NO ENF\n");
-                failed=true;
+                scriptoutput(script->output, "ERROR: NO ENF\n");
+                script->failed=true;
                 break;
             }
             int m;
             bool jumped=false;
-            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
-            else m = atoi(stack[opindex+1]);
-            if (memory[mds] == m) {
-                opindex+=2;
+            if (isop(script->stack[script->opindex+1]) == OP_MDX) m = script->memory[script->mdx];
+            else m = atoi(script->stack[script->opindex+1]);
+            if (script->memory[script->mds] == m) {
+                script->opindex+=2;
                 int to = els > -1 ? els : enf;
-                for (; opindex < to; opindex++) {
-                    if (isop(stack[opindex])==OP_JMP) {
-                        doop(isop(stack[opindex]));
+                for (; script->opindex < to; script->opindex++) {
+                    if (isop(script->stack[script->opindex])==OP_JMP) {
+                        doop(script, isop(script->stack[script->opindex]));
                         jumped=true;
                         break;
                     }
-                    doop(isop(stack[opindex]));
-                    if (failed) break;
+                    doop(script, isop(script->stack[script->opindex]));
+                    if (script->failed) break;
                 }
             } else {
                 if (els > -1) {
-                    opindex = els;
-                    for (; opindex < enf; opindex++) {
-                        if (isop(stack[opindex])==OP_JMP) {
-                            doop(isop(stack[opindex]));
+                    script->opindex = els;
+                    for (; script->opindex < enf; script->opindex++) {
+                        if (isop(script->stack[script->opindex])==OP_JMP) {
+                            doop(script, isop(script->stack[script->opindex]));
                             jumped=true;
                             break;
                         }
-                        doop(isop(stack[opindex]));
-                        if (failed) break;
+                        doop(script, isop(script->stack[script->opindex]));
+                        if (script->failed) break;
                     }
                 }
             }
             if (!jumped)
-                opindex = enf;
+                script->opindex = enf;
         } break;
         case OP_SET: {
-            int setop = isop(stack[opindex+1]);
+            int setop = isop(script->stack[script->opindex+1]);
             if (setop == OP_MDX)
-                memory[mds] = memory[mdx];
+                script->memory[script->mds] = script->memory[script->mdx];
             else
-                memory[mds] = atoi(stack[opindex+1]);
-            opindex++;
+                script->memory[script->mds] = atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_ADD: {
-            int addop = isop(stack[opindex+1]);
+            int addop = isop(script->stack[script->opindex+1]);
             if (addop == OP_MDX)
-                memory[mds] += memory[mdx];
+                script->memory[script->mds] += script->memory[script->mdx];
             else
-                memory[mds] += atoi(stack[opindex+1]);
-            opindex++;
+                script->memory[script->mds] += atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_ENF: {
             
         } break;
         case OP_PRN: {
-            if (isop(stack[opindex+1]) == OP_MDX)
-                scriptoutput("MDX: %d\n", memory[mdx]);
-            else if (isop(stack[opindex+1]) == OP_MDS)
-                scriptoutput("MDS: %d\n", memory[mds]);
+            if (isop(script->stack[script->opindex+1]) == OP_MDX)
+                scriptoutput(script->output, "MDX: %d\n", script->memory[script->mdx]);
+            else if (isop(script->stack[script->opindex+1]) == OP_MDS)
+                scriptoutput(script->output, "MDS: %d\n", script->memory[script->mds]);
             else
-                scriptoutput("OUT: %s\n", stack[opindex+1]);
-            opindex++;
+                scriptoutput(script->output, "OUT: %s\n", script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_ELS: {
         } break;
         case OP_MEM: {
-            scriptoutput("MEM: ");
+            scriptoutput(script->output, "MEM: ");
             for (int i = 0; i < MEM; i++) {
-                scriptoutput("%d ", memory[i]);
+                scriptoutput(script->output, "%d ", script->memory[i]);
             }
-            scriptoutput("\n");
+            scriptoutput(script->output, "\n");
         } break;
         case OP_DEF: {
-            opindex++;
+            script->opindex++;
         } break;
         case OP_JMP: {
             bool found=false;
-            for (int i = 0; i < labelsize; i++) {
-                if (!strcmp(stack[labels[i]], stack[opindex+1])) {
-                    opindex = labels[i];
+            for (int i = 0; i < script->labelsize; i++) {
+                if (!strcmp(script->stack[script->labels[i]], script->stack[script->opindex+1])) {
+                    script->opindex = script->labels[i];
                     found=true;
                     break;
                 }
             }
             if (!found) {
-                scriptoutput("ERROR: NO LABEL (%s)\n", stack[opindex+1]);
-                failed=true;
+                scriptoutput(script->output, "ERROR: NO LABEL (%s)\n", script->stack[script->opindex+1]);
+                script->failed=true;
                 break;
             }
         } break;
         case OP_IFL: {
             int els = -1;
             int enf = -1;
-            for (int i = opindex; i < stacksize; i++) {
-                int eop = isop(stack[i]);
+            for (int i = script->opindex; i < script->stacksize; i++) {
+                int eop = isop(script->stack[i]);
                 if (eop == OP_ENF) {
                     enf = i;
                     break;
@@ -203,48 +203,48 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                scriptoutput("ERROR: NO ENF\n");
-                failed=true;
+                scriptoutput(script->output, "ERROR: NO ENF\n");
+                script->failed=true;
                 break;
             }
             int m;
             bool jumped=false;
-            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
-            else m = atoi(stack[opindex+1]);
-            if (memory[mds] < m) {
-                opindex+=2;
+            if (isop(script->stack[script->opindex+1]) == OP_MDX) m = script->memory[script->mdx];
+            else m = atoi(script->stack[script->opindex+1]);
+            if (script->memory[script->mds] < m) {
+                script->opindex+=2;
                 int to = els > -1 ? els : enf;
-                for (; opindex < to; opindex++) {
-                    if (isop(stack[opindex])==OP_JMP) {
-                        doop(isop(stack[opindex]));
+                for (; script->opindex < to; script->opindex++) {
+                    if (isop(script->stack[script->opindex])==OP_JMP) {
+                        doop(script, isop(script->stack[script->opindex]));
                         jumped=true;
                         break;
                     }
-                    doop(isop(stack[opindex]));
-                    if (failed) break;
+                    doop(script, isop(script->stack[script->opindex]));
+                    if (script->failed) break;
                 }
             } else {
                 if (els > -1) {
-                    opindex = els;
-                    for (; opindex < enf; opindex++) {
-                        if (isop(stack[opindex])==OP_JMP) {
-                            doop(isop(stack[opindex]));
+                    script->opindex = els;
+                    for (; script->opindex < enf; script->opindex++) {
+                        if (isop(script->stack[script->opindex])==OP_JMP) {
+                            doop(script, isop(script->stack[script->opindex]));
                             jumped=true;
                             break;
                         }
-                        doop(isop(stack[opindex]));
-                        if (failed) break;
+                        doop(script, isop(script->stack[script->opindex]));
+                        if (script->failed) break;
                     }
                 }
             }
             if (!jumped)
-                opindex = enf;
+                script->opindex = enf;
         } break;
         case OP_IFG: {
             int els = -1;
             int enf = -1;
-            for (int i = opindex; i < stacksize; i++) {
-                int eop = isop(stack[i]);
+            for (int i = script->opindex; i < script->stacksize; i++) {
+                int eop = isop(script->stack[i]);
                 if (eop == OP_ENF) {
                     enf = i;
                     break;
@@ -254,79 +254,79 @@ void doop(int op)
                 }
             }
             if (enf == -1) {
-                scriptoutput("ERROR: NO ENF\n");
-                failed=true;
+                scriptoutput(script->output, "ERROR: NO ENF\n");
+                script->failed=true;
                 break;
             }
             int m;
             bool jumped=false;
-            if (isop(stack[opindex+1]) == OP_MDX) m = memory[mdx];
-            else m = atoi(stack[opindex+1]);
-            if (memory[mds] > m) {
-                opindex+=2;
+            if (isop(script->stack[script->opindex+1]) == OP_MDX) m = script->memory[script->mdx];
+            else m = atoi(script->stack[script->opindex+1]);
+            if (script->memory[script->mds] > m) {
+                script->opindex+=2;
                 int to = els > -1 ? els : enf;
-                for (; opindex < to; opindex++) {
-                    if (isop(stack[opindex])==OP_JMP) {
-                        doop(isop(stack[opindex]));
+                for (; script->opindex < to; script->opindex++) {
+                    if (isop(script->stack[script->opindex])==OP_JMP) {
+                        doop(script, isop(script->stack[script->opindex]));
                         jumped=true;
                         break;
                     }
-                    doop(isop(stack[opindex]));
-                    if (failed) break;
+                    doop(script, isop(script->stack[script->opindex]));
+                    if (script->failed) break;
                 }
             } else {
                 if (els > -1) {
-                    opindex = els;
-                    for (; opindex < enf; opindex++) {
-                        if (isop(stack[opindex])==OP_JMP) {
-                            doop(isop(stack[opindex]));
+                    script->opindex = els;
+                    for (; script->opindex < enf; script->opindex++) {
+                        if (isop(script->stack[script->opindex])==OP_JMP) {
+                            doop(script, isop(script->stack[script->opindex]));
                             jumped=true;
                             break;
                         }
-                        doop(isop(stack[opindex]));
-                        if (failed) break;
+                        doop(script, isop(script->stack[script->opindex]));
+                        if (script->failed) break;
                     }
                 }
             }
             if (!jumped)
-                opindex = enf;
+                script->opindex = enf;
         } break;
         case OP_MDX: {
-            mdx = atoi(stack[opindex+1]);
-            opindex++;
+            script->mdx = atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_NEG: {
-            memory[mds] = -memory[mds];
+            script->memory[script->mds] = -script->memory[script->mds];
         } break;
         case OP_MUL: {
-            int addop = isop(stack[opindex+1]);
+            int addop = isop(script->stack[script->opindex+1]);
             if (addop == OP_MDX)
-                memory[mds] *= memory[mdx];
+                script->memory[script->mds] *= script->memory[script->mdx];
             else
-                memory[mds] *= atoi(stack[opindex+1]);
-            opindex++;
+                script->memory[script->mds] *= atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         case OP_DIV: {
-            int addop = isop(stack[opindex+1]);
+            int addop = isop(script->stack[script->opindex+1]);
             if (addop == OP_MDX)
-                memory[mds] /= memory[mdx];
+                script->memory[script->mds] /= script->memory[script->mdx];
             else
-                memory[mds] /= atoi(stack[opindex+1]);
-            opindex++;
+                script->memory[script->mds] /= atoi(script->stack[script->opindex+1]);
+            script->opindex++;
         } break;
         default: {
-            scriptoutput("UNDEFINED OPERATION (%s)\n", stack[opindex]);
+            scriptoutput(script->output, "UNDEFINED OPERATION (%s)\n", script->stack[script->opindex]);
         } break;
     }
 }
 
-void stackinfo()
+void stackinfo(baslike_t* script)
 {
-    printf("Stack has %d operations\n", stacksize);
+    printf("Stack has %d operations\n", script->stacksize);
     printf("[");
-    for (int i = 0; i < stacksize; i++) {
-        printf(" \"%s\"", stack[i]);
-        if (i < stacksize-1) {
+    for (int i = 0; i < script->stacksize; i++) {
+        printf(" \"%s\"", script->stack[i]);
+        if (i < script->stacksize-1) {
             printf(" ,");
         }
         printf(" ");
@@ -334,10 +334,10 @@ void stackinfo()
     printf("]\n");
 }
 
-char* getoutput() { return output; }
-char** getstack() { return stack; }
-int* getmemory() { return memory; }
-bool getfailed() { return failed; }
-int* getlabels() { return labels; }
-int getstacksize() { return stacksize; }
-int getlabelsize() { return labelsize; }
+// char* getoutput() { return output; }
+// char** getstack() { return stack; }
+// int* getscript->memory() { return script->memory; }
+// bool getscript->failed() { return script->failed; }
+// int* getlabels() { return labels; }
+// int script->getstacksize() { return script->stacksize; }
+// int getscript->labelsize() { return script->labelsize; }

@@ -8,33 +8,38 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-static char output[1024];
-void scriptoutput(char* fmt, ...) {
+#define OPS 16
+#define MEM 8
+
+typedef struct baslike_t {
+    char output[1024];
+    char stack[512][16];
+    int stacksize;
+    int opindex;
+    bool failed;
+    int memory[MEM];
+    int labels[512];
+    int labelsize;
+    int mds;
+    int mdx;
+} baslike_t;
+
+void scriptoutput(baslike_t* script, char* fmt, ...) {
     char buf[128];
     va_list va;
     va_start(va, fmt);
     vsprintf(buf, fmt, va);
     va_end(va);
-    strcat(output, buf);
+    strcat(script->output, buf);
 }
 
-#define OPS 16
-#define MEM 8
-
-void execute(char*);
-void reset();
-void preprocess();
-void populate(char*);
-int isop(char*);
-void doop(int);
-void stackinfo();
-static char stack[512][16];
-static int stacksize = 0;
-static int opindex = 0;
-static bool failed = false;
-static int memory[MEM] = {0};
-static int labels[512] = {-1};
-static int labelsize = 0;
+void execute    (baslike_t*, char*);
+void populate   (baslike_t*, char*);
+int  isop       ( char*);
+void doop       (baslike_t*,   int);
+void reset      (baslike_t*       );
+void preprocess (baslike_t*       );
+void stackinfo  (baslike_t*       );
 static char* ops[OPS] = {
     "MDS",
     "MDX",
@@ -76,12 +81,12 @@ enum {
 };
 
 // getters
-char* getoutput();
-char** getstack();
-int* getmemory();
-bool getfailed();
-int* getlabels();
-int getstacksize();
-int getlabelsize();
+// char*  getoutput();
+// char** getstack();
+// int*   getmemory();
+// bool   getfailed();
+// int*   getlabels();
+// int    getstacksize();
+// int    getlabelsize();
 
 #endif

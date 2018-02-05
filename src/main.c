@@ -39,13 +39,14 @@ int main(int argc, char** argv)
     }
     char* str = loadtext(argv[1]);
     if (!str) return 1;
-    execute(str);
+    baslike_t script;
+    execute(&script, str);
     printf("-- STACK INFO --\n");
-    printf("LABELS : %d\n", getlabelsize());
-    printf("OPS    : %d\n", getstacksize());
+    printf("LABELS : %d\n", script.labelsize);
+    printf("OPS    : %d\n", script.stacksize);
     printf("--   OUTPUT   --\n");
-    printf("%s", getoutput());
-    if (getfailed()) {
+    printf("%s", script.output);
+    if (script.failed) {
         printf("--   FAILED   --\n");
     } else {
         printf("--   SUCCESS  --\n");
