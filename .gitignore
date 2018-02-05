@@ -5,3 +5,4 @@ bin/baslike.exe
 obj/
 .vscode/
 !.gitignore
+baslike.sublime*
