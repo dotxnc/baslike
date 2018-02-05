@@ -1,6 +1,6 @@
-bin/script*
-bin/script
-bin/script.exe
+bin/baslike*
+bin/baslike
+bin/baslike.exe
 !bin/script.b
 obj/
 .vscode/
