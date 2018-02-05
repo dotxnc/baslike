@@ -319,25 +319,3 @@ void doop(baslike_t* script, int op)
         } break;
     }
 }
-
-void stackinfo(baslike_t* script)
-{
-    printf("Stack has %d operations\n", script->stacksize);
-    printf("[");
-    for (int i = 0; i < script->stacksize; i++) {
-        printf(" \"%s\"", script->stack[i]);
-        if (i < script->stacksize-1) {
-            printf(" ,");
-        }
-        printf(" ");
-    }
-    printf("]\n");
-}
-
-// char* getoutput() { return output; }
-// char** getstack() { return stack; }
-// int* getscript->memory() { return script->memory; }
-// bool getscript->failed() { return script->failed; }
-// int* getlabels() { return labels; }
-// int script->getstacksize() { return script->stacksize; }
-// int getscript->labelsize() { return script->labelsize; }

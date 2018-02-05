@@ -24,7 +24,7 @@ typedef struct baslike_t {
     int mdx;
 } baslike_t;
 
-void scriptoutput(baslike_t* script, char* fmt, ...) {
+static void scriptoutput(baslike_t* script, char* fmt, ...) {
     char buf[128];
     va_list va;
     va_start(va, fmt);
@@ -39,7 +39,6 @@ int  isop       ( char*);
 void doop       (baslike_t*,   int);
 void reset      (baslike_t*       );
 void preprocess (baslike_t*       );
-void stackinfo  (baslike_t*       );
 static char* ops[OPS] = {
     "MDS",
     "MDX",
@@ -58,8 +57,6 @@ static char* ops[OPS] = {
     "DEF",
     "JMP",
 };
-static int mds = 0;
-static int mdx = 0;
 enum {
     OP_NON=-1, // not an operation
     OP_MDS,    // memory location
@@ -79,14 +76,5 @@ enum {
     OP_DEF,    // define label
     OP_JMP,    // jump to label
 };
-
-// getters
-// char*  getoutput();
-// char** getstack();
-// int*   getmemory();
-// bool   getfailed();
-// int*   getlabels();
-// int    getstacksize();
-// int    getlabelsize();
 
 #endif
