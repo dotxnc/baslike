@@ -2,7 +2,7 @@
 `BASLIKE` was created for a game I am/was working on called `^2`. The code is not pretty or written how an interpreter should be written but it works for what I need and that's all that matters.
 
 # BASLIKE language specification
-Current language spec is `0.4.1`
+Current language spec is `0.5`
 
 - [MDX and MDS](#mds-and-mdx)
 - [Math ops](#math)
@@ -159,16 +159,19 @@ ENF
 
 ### Comments
 ___
-Commenting code can be important so I've implemented a very simplistic way of documenting code. If a word contains any lowercase letter it gets ignored by the interpreter.
+Commenting code can be important so I've implemented a very simplistic way of documenting code. ~~If a word contains any lowercase letter it gets ignored by the interpreter.~~
+**NOTE**: Comments were changed in 0.5 to the following.
 ```
-This is a comment
+(This is a comment)
 MDS 0
 ADD 5
 ```
 This works fine and the resulting output is just as you'd expect.
 ```
-THIS is not a comment
+(
+THIS is still a comment
+)
 MDS 0
 ADD 5
 ```
-This will cause a warning of `NON OPERATION (THIS)`.
+~~This will cause a warning of `NON OPERATION (THIS)`.~~ See previous note.
