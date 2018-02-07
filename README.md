@@ -2,15 +2,16 @@
 `BASLIKE` was created for a game I am/was working on called `^2`. The code is not pretty or written how an interpreter should be written but it works for what I need and that's all that matters.
 
 # BASLIKE language specification
-Current language spec is `0.5`
+Current language spec is `0.6`
 
 - [MDX and MDS](#mds-and-mdx)
 - [Math ops](#math)
 - [Debugging](#debugging)
 - [Conditional statements](#conditional-if-statements)
 - [Labels and looping](#labels-and-looping)
-- [Fun](#fun)
 - [Comments](#comments)
+- [Functions](#functions)
+- [Fun](#fun)
 
 ### MDS and MDX
 ___
@@ -130,6 +131,52 @@ MDS: 5
 OUT: END
 ```
 
+### Comments
+___
+Commenting code can be important so I've implemented a very simplistic way of documenting code. ~~If a word contains any lowercase letter it gets ignored by the interpreter.~~
+**NOTE**: Comments were changed in 0.5 to the following.
+```
+(This is a comment)
+MDS 0
+ADD 5
+```
+This works fine and the resulting output is just as you'd expect.
+```
+(
+THIS is still a comment
+)
+MDS 0
+ADD 5
+```
+~~This will cause a warning of `NON OPERATION (THIS)`.~~ See previous note.
+
+### Functions
+___
+In 0.6 simple functions were added. Here's an example because It's safe to assume you know most of the language by now.
+```
+(Define function "TEST"
+which just does a bunch
+of text printing and
+then exits)
+FNC TEST
+    PRN TEST
+    DEF A
+    MDS 0
+    IFL 3
+        ADD 1
+        PRN FUCK
+        JMP A
+    ENF
+    PRN DONE
+END
+
+(Call function "TEST"
+and return back to
+the starting point)
+CAL TEST
+PRN PROGRAM_EXIT
+```
+
 ### Fun
 ___
 Just for fun, here is an implementation of the fibonacci sequence in `BASLIKE`
@@ -157,21 +204,3 @@ IFL 10
 ENF
 ```
 
-### Comments
-___
-Commenting code can be important so I've implemented a very simplistic way of documenting code. ~~If a word contains any lowercase letter it gets ignored by the interpreter.~~
-**NOTE**: Comments were changed in 0.5 to the following.
-```
-(This is a comment)
-MDS 0
-ADD 5
-```
-This works fine and the resulting output is just as you'd expect.
-```
-(
-THIS is still a comment
-)
-MDS 0
-ADD 5
-```
-~~This will cause a warning of `NON OPERATION (THIS)`.~~ See previous note.
