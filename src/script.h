@@ -22,7 +22,6 @@ typedef struct baslike_t {
     int labelsize;
     int mds;
     int mdx;
-    bool inif;
 } baslike_t;
 
 static void scriptoutput(baslike_t* script, char* fmt, ...) {
