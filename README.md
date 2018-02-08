@@ -2,7 +2,7 @@
 `BASLIKE` was created for a game I am/was working on called `^2`. The code is not pretty or written how an interpreter should be written but it works for what I need and that's all that matters.
 
 # BASLIKE language specification
-Current language spec is `0.6.1`
+Current language spec is `0.6.2`
 
 - [MDX and MDS](#mds-and-mdx)
 - [Math ops](#math)
