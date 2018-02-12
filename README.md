@@ -1,3 +1,3 @@
 # BASLIKE
 See the wiki for info.
-Current version `0.9.0`
+Current version `0.9.1`
