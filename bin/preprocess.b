@@ -1,6 +1,6 @@
-This is an example to show
+(This is an example to show
 the proprocessor finding defined
-labels before you reach them.
+labels before you reach them.)
 
 DEF START
 MDS 0
