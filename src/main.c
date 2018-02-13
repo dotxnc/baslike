@@ -26,7 +26,7 @@ char *loadtext(const char *fileName)
     return text;
 }
 
-int test_funct(baslike_t* s) {
+int test_func(baslike_t* s) {
     scriptoutput(s, "TEST FUNCT\n");
     return -1;
 }
@@ -54,6 +54,9 @@ int main(int argc, char** argv)
     char* str = loadtext(argv[1]);
     if (!str) return 1;
     baslike_t script;
+    linkfunction(&script, test_func, "TEST");
+    linkfunction(&script, hash_func, "HASH");
+    
     execute(&script, str);
     printf("-- STACK INFO --\n");
     printf("LABELS : %d\n", script.labelsize);
