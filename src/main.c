@@ -26,6 +26,20 @@ char *loadtext(const char *fileName)
     return text;
 }
 
+int test_funct(baslike_t* s) {
+    scriptoutput(s, "TEST FUNCT\n");
+    return -1;
+}
+
+int hash_func(baslike_t* s) {
+    int x = s->args[0];
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = (x >> 16) ^ x;
+    s->ret = x;
+    return -1;
+}
+
 int main(int argc, char** argv)
 {
     
@@ -34,7 +48,7 @@ int main(int argc, char** argv)
         return 1;
     }
     if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
-        printf("BASLIKE VER 0.4.1\n");
+        printf("BASLIKE VER 0.9.3\n");
         return 0;
     }
     char* str = loadtext(argv[1]);
