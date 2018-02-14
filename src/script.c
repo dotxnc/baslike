@@ -42,7 +42,7 @@ void reset(baslike_t* script) {
     script->error = -1;
     script->infunction = false;
     script->ret = 0;
-    memset(script, '\0', 1024);
+    memset(script->output, '\0', 1024);
 }
 
 void preprocess(baslike_t* script)
