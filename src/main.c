@@ -48,7 +48,7 @@ int main(int argc, char** argv)
         return 1;
     }
     if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
-        printf("BASLIKE VER 0.9.3\n");
+        printf("BASLIKE VER 0.9.4\n");
         return 0;
     }
     char* str = loadtext(argv[1]);
